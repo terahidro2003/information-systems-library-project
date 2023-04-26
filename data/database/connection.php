@@ -21,7 +21,7 @@ if ( mysqli_connect_errno() ) {
 }
 
 //required tables list
-$tables = ["auth.users", "auth.signup_requests", "auth.codes"];
+$tables = ["auth.users", "auth.codes"];
 
 //check if required tables exist
 foreach($tables as $table)

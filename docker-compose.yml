@@ -28,12 +28,12 @@ services:
     depends_on:
       - mariadb
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: sk278/phpmyadmin-armhf
     ports:
      - "8080:8080"
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=mariadb
+      - PMA_ABSOLUTE_URI="http://localhost/phpmyadmin"
     depends_on:
       - mariadb
     networks:
