@@ -15,3 +15,14 @@ CREATE TABLE auth.codes(
     created_at timestamp,
     updated_at timestamp
 );
+
+CREATE TABLE auth.login_history(
+    id primary key,
+    user_id integer,
+    ip_address varchar(255),
+    device_info varchar(255),
+    session_token varchar(255),
+    session_active integer default 0,
+    created_at timestamp,
+    updated_at timestamp
+)
