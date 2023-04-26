@@ -15,7 +15,9 @@ services:
       - php
     restart: always
   php:
-    image: php:fpm-alpine
+    build:
+      context: .
+      dockerfile: php/Dockerfile
     ports:
       - ":9000"
     networks:
@@ -23,7 +25,36 @@ services:
     volumes:
       - ./data/:/var/www/html/
       - ./logs/php.log:/var/log/fpm-php.www.log
-    
+    depends_on:
+      - mariadb
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+     - "8080:8080"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - internal
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'librarysystemroot123'
+      MYSQL_USER: 'authenticator'
+      MYSQL_PASSWORD: 'library'
+      MYSQL_DATABASE: 'libraryDB'
+      MYSQL_HOST: '127.0.0.1'
+    ports:
+      - "3306:3306"
+    networks:
+     - internal
+    volumes:
+      - mysqldata:/var/lib/mysql
+volumes:
+  mysqldata: {}
 networks:
   internal:
     driver: bridge
