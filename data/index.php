@@ -1,2 +1,2 @@
 <?php
-echo "kkk";
+require "auth/authenticate.php";
