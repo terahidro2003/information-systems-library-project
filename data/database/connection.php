@@ -1,14 +1,8 @@
 <?php
 session_start();
 
-// If the user is not logged in redirect to the login page...
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: /auth/login.html');
-	exit;
-}
-
 // Change this to your connection info.
-$DATABASE_HOST = '172.19.0.2';
+$DATABASE_HOST = '172.19.0.3';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = 'librarysystemroot123';
 $DATABASE_NAME = 'libraryDB';
@@ -21,18 +15,23 @@ if ( mysqli_connect_errno() ) {
 }
 
 //required tables list
-$tables = ["auth.users", "auth.codes"];
+$tables = ["auth_users", "auth_codes", "auth_login_history", "library_books"];
 
 //check if required tables exist
 foreach($tables as $table)
 {
 		// if table does not exist, PHP will throw SQL Exception
 		try {    
-			$con->query('DESCRIBE '.$table.'');
-			throw new Exception("MySQL error $con->error <br> Query:<br> $query", $msqli->errno);    
+			$rez = $con->query('DESCRIBE '.$table.'');
+			if($rez->num_rows == 0)
+			{
+				throw new Exception("MySQL error: $con->error, $con->errno");    
+			}
+			//echo "All tables exist. Check done successfully";
 		} catch(Exception $e ) {	//table does not exist
-			//echo "Error No: ".$e->getCode(). " - ". $e->getMessage() . "<br >";
 			//echo nl2br($e->getTraceAsString());
-			echo "Table ".$table." does not exist<br>\n"; //message 
+			//echo "Table ".$table." does not exist<br>\n"; //message 
+			//echo "Creating table $table ...";
+			$con->query(file_get_contents("../_config/tables/$table.sql"));
 		}
 }
