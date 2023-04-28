@@ -1,0 +1,29 @@
+/*
+    CSS User Interface Library
+    Modern-IS-UI
+    By J. Skarbalius (2023, j.skarbalius@lancaster.ac.uk)
+    Part of Information Systems Assesment (Summer Term Project)
+    All rights reserved, 2023
+ */
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+ @import "buttons.css";
+ @import "font.css";
+ @import "layout.css";
+ @import "form-control.css";
+
+ html, body{
+    font-size: 16px;
+    min-height: 100vh;
+    font-family: 'Roboto';
+ }
+ *
+ {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    text-decoration: none;
+    color: #000;
+ }
+
+
+

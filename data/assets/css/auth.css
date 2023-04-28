@@ -1,0 +1,38 @@
+body, html{
+    font-size: 16px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login-panel{
+    display: flex;
+    flex-direction: column;
+}
+.auth-wrapper
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+}
+.auth-background
+{
+    width: 50%;
+    height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1568667256549-094345857637?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bGlicmFyeXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.auth-form
+{
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5em;
+    box-sizing: border-box;
+}
