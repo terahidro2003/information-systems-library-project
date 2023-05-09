@@ -1,14 +1,14 @@
 <?php
-require "../database/connection.php";
+require "./database/connection.php";
 
-// Now we check if the data from the login form was submitted, isset() will check if the data exists.
+//Now we check if the data from the login form was submitted, isset() will check if the data exists.
 // if (!isset($_POST['email'], $_POST['password']) ) {
 // 	// Could not get the data that should have been sent.
 // 	exit('Please fill both the username and password fields!');
 // }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT id, password FROM auth_users WHERE email = ?')) {
+if ($stmt = $con->prepare('SELECT user_id FROM auth_login_history WHERE session_token = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
 	$stmt->bind_param('s', $_POST['email']);
 	$stmt->execute();

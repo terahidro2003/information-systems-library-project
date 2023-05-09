@@ -1,7 +1,8 @@
 <?php
 require "../helpers/validator.php";
+require "../database/DatabaseConnection.php";
 // require "authenticate.php";
-require "../database/connection.php";
+// include "../database/connection.php";
 
 class SignupFactory {
     //data variables:
@@ -11,11 +12,15 @@ class SignupFactory {
     private $firstName;
     private $lastName;
 
+    public $status = "ONGOING";
+
     public $valid;
-    private $emailErr;
-    private $passwordErr;
-    private $authCodeErr;
-    private $nameErr;
+    public $emailErr;
+    public $passwordErr;
+    public $authCodeErr;
+    public $nameErr;
+
+    private $databaseConnection;
 
     function __construct($email, $password, $auth, $fname, $lname)
     {
@@ -24,6 +29,7 @@ class SignupFactory {
         $this->authCode = $auth;
         $this->firstName = $fname;
         $this->lastName = $lname;
+        $this->databaseConnection = new DatabaseConnection("auth");
     }
 
     public function validate()
@@ -38,24 +44,34 @@ class SignupFactory {
         }
         if($this->valid)
         {
-            echo "<div class='alert alert-success'>Validation passed</div>";
+            $this->status = "VALID";
+            $signup_message =  "<div class='alert alert-success'>Validation passed</div>";
+            return;
         }
-        else if($this->emailErr) {echo "<div class='alert alert-warning'>Invalid email</div>";}
-        else if($this->passwordErr) {echo "<div class='alert alert-warning'>Invalid password</div>";}
-        else if($this->authCodeErr) {echo "<div class='alert alert-warning'>Invalid authentication code</div>\n";}
-        else if($this->nameErr) {echo "<div class='alert alert-warning'>Invalid name or lastname</div>";}
+        // else if($this->emailErr) {$signup_message =  "<div class='alert alert-warning'>Invalid email</div>";}
+        // else if($this->passwordErr) {$signup_message =  "<div class='alert alert-warning'>Invalid password</div>";}
+        // else if($this->authCodeErr) {$signup_message =  "<div class='alert alert-warning'>Invalid authentication code</div>\n";}
+        // else if($this->nameErr) {$signup_message =  "<div class='alert alert-warning'>Invalid name or lastname</div>";}
+        $this->status = "NON-VALID";
     }
 
     public function save()
     {
         if($this->valid)
         {
-            if($stmt = $con->prepare('INSERT INTO auth_users (email, password) VALUES ?,?'))
+            if($stmt = $this->databaseConnection->con->prepare('INSERT INTO auth_users (email, password, created_at, updated_at) VALUES (?,?,?,?)'))
             {
                 $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
-                $stmt->bind_param('ss', $this->email, $this->password);
-                $stmt->execute();
-                echo "Signup successfull\n";
+                $stmt->bind_param('ssss', $this->email, $hashed_password, date('Y-m-d H:i:s',time()), date('Y-m-d H:i:s',time()));
+                if($stmt->execute())
+                {
+                    $this->status = "SUCCESS";
+                    echo "Signup successfull\n";
+                }
+                else{
+                    $this->status = "FAILED";
+                    echo "FAILED\n";
+                }
             }else{
                 echo "ERROR\n";
             }

@@ -22,6 +22,18 @@ if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_nam
 <body>
     <div class="auth-wrapper">
     <div class="auth-form d-flex d-flex-columns">
+        <?php
+            if($signup->status == "NON-VALID"){
+                echo 
+                    '<div class="alert alert-warning"><span class="alert-header">Invalid inputs provided</span><br/>Please correct following fields:';
+                echo '<ul style="padding-left: 1em;">';
+                if($signup->emailErr) echo '<li>Make sure you typed your email correctly</li>';
+                if($signup->passwordErr) echo '<li>Make sure you typed a password with at least 8 symbols, 1 special character, and at least 1 number</li>';
+                if($signup->authCodeErr) echo '<li>Make sure you typed signup authentication code correctly. This code can be received from your librarian</li>';
+                if($signup->nameErr) echo '<li>Make sure you typed your full name correctly</li>';
+                echo '</ul></div>';
+            } 
+        ?>
     <form action="signup.php" method="POST">
         <div>
             <label class="d-block" for="">Email:</label>

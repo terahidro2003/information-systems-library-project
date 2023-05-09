@@ -1,8 +1,10 @@
 <?php
+
 session_start();
 
+
 // Change this to your connection info.
-$DATABASE_HOST = '172.19.0.3';
+$DATABASE_HOST = '172.19.0.2';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = 'librarysystemroot123';
 $DATABASE_NAME = 'libraryDB';
