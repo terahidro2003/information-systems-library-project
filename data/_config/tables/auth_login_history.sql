@@ -1,5 +1,5 @@
 CREATE TABLE auth_login_history(
-    id int primary key AUTO_INCREMENT,
+    id int(11) NOT NULL AUTO_INCREMENT,
     user_id int,
     ip_address varchar(255),
     device_info varchar(255),
@@ -7,5 +7,6 @@ CREATE TABLE auth_login_history(
     session_active integer default 0,
     created_at timestamp,
     updated_at timestamp,
-    deleted_at timestamp
+    deleted_at timestamp default null,
+    PRIMARY KEY (id)
 );
