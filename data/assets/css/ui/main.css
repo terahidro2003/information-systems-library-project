@@ -5,24 +5,22 @@
     Part of Information Systems Assesment (Summer Term Project)
     All rights reserved, 2023
  */
- @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
  @import "buttons.css";
  @import "font.css";
  @import "layout.css";
  @import "form-control.css";
+ @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;1,400;1,500&display=swap');
+
 
  html, body{
     font-size: 16px;
     min-height: 100vh;
-    font-family: 'Roboto';
  }
- *
- {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    text-decoration: none;
-    color: #000;
+
+ * {
+     margin: 0;
+     padding: 0;
+     font-family: 'Plus Jakarta Sans', sans-serif;
  }
 
 

@@ -1,3 +1,84 @@
+
+.sidenav {
+    width: 12.5rem;
+    height: 100vh;
+    position: fixed;
+    background: #111130;
+
+    padding-top: 2.5rem;
+}
+
+
+.sidenav .logo {
+    padding-bottom: 3.438rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.section .section-name {
+    color: #999999;
+    opacity: .6;
+    text-transform: uppercase;
+    font-size: 0.663rem;
+    padding-left: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.section a {
+    text-decoration: none;
+    color: #ddd;
+    background-color: transparent;
+    padding: 0.75rem 1.2rem;
+    margin: 0.325rem 0;
+    font-size: 0.813rem;
+}
+
+.topnav
+{
+    position: fixed;
+    width: calc(100vw - 12.5rem);
+    left: 12.5rem;
+    float: right;
+    box-sizing: border-box;
+    padding: .8em 2em;
+    /* background: pink; */
+    border-bottom: 1px solid #ddd;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topnav .search-area
+{
+    width: 50%;
+}
+
+.topnav .form-control
+{
+    padding-top: .3em;
+    padding-bottom: .3em;
+    /* border: none; */
+    /* background-color:#262642;  */
+}
+
+.section a svg {
+    margin-right: .75rem;
+}
+
+.section .active {
+    background-color: #262642;
+}
+
 .d-flex
 {
     display: flex;
