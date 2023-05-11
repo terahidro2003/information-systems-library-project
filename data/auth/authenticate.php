@@ -1,43 +1,67 @@
 <?php
-require "./database/connection.php";
+require "../sessions/SessionManager.php";
+require "../database/DatabaseConnection.php";
 
-//Now we check if the data from the login form was submitted, isset() will check if the data exists.
-// if (!isset($_POST['email'], $_POST['password']) ) {
-// 	// Could not get the data that should have been sent.
-// 	exit('Please fill both the username and password fields!');
-// }
+class Authentication
+{
+	public $authenticated = false;
+	public $email;
+	public $role;
+	protected $session;
+	public $databaseConnection;
 
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT user_id FROM auth_login_history WHERE session_token = ?')) {
-	// Bind parameters (s = string, i = int, b = blob, etc), in our case the username is a string so we use "s"
-	$stmt->bind_param('s', $_POST['email']);
-	$stmt->execute();
-	// Store the result so we can check if the account exists in the database.
-	$stmt->store_result();
-
-	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($id, $password);
-		$stmt->fetch();
-		// Account exists, now we verify the password.
-		// Note: remember to use password_hash in your registration file to store the hashed passwords.
-		if (password_verify($_POST['password'], $password)) {
-			// Verification success! User has logged-in!
-			// Create sessions, so we know the user is logged in, they basically act like cookies but remember the data on the server.
-			session_regenerate_id();
-			$_SESSION['loggedin'] = TRUE;
-			$_SESSION['name'] = $_POST['email'];
-			$_SESSION['id'] = $id;
-			//echo 'Welcome ' . $_SESSION['name'] . '!';
-		} else {
-			// Incorrect password
-			//echo 'Incorrect username and/or password!';
-		}
-	} else {
-		// Incorrect username
-		//echo 'Incorrect username and/or password!';
+	public function __construct()
+	{
+		error_reporting(0);
+		$this->databaseConnection = new DatabaseConnection("auth");
+		$this->session = new SessionManager();
 	}
-	$stmt->close();
+
+	public static function check_authentication($auth)
+	{
+		if(!$auth->auth())
+		{
+			header('Location: /auth/login.php');
+			exit();
+		}
+	}
+
+	public function auth()
+	{	
+		if($this->session->has('LIMS.auth'))
+		{
+			// $connection = new DatabaseConnection("auth");
+			if($stmt = $this->databaseConnection->con->prepare('SELECT user_id FROM auth_login_history WHERE session_token = ?'))
+			{
+				$stmt->bind_param('s', $this->session->get('LIMS.auth'));
+				$stmt->execute();
+				$stmt->store_result();
+				
+				if($stmt->num_rows > 0)
+				{
+					$stmt->bind_result($user_id);
+					$stmt->fetch();
+					
+					if($stmt = $this->databaseConnection->con->prepare('SELECT email, role FROM auth_users WHERE id = ?'))
+					{
+						$stmt->bind_param('s', $user_id);
+						$stmt->execute();
+						$stmt->store_result();
+
+						if($stmt->num_rows > 0)
+						{
+							$stmt->bind_result($this->email, $this->role);
+							$stmt->fetch();
+							$this->authenticated = true;
+							return true;
+						}
+					}
+				}
+			}
+
+		}
+		return false;
+	}
 }
-
-
-
+    
+?>

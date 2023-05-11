@@ -1,8 +1,15 @@
 <?php
 include "SignupFactory.php";
+ob_start();
+$signup = new SignupFactory();
+if($signup->auth())
+{
+   exit(header('Location: /system/index.php'));
+}
+
 if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_name"], $_POST["l_name"]))
 {
-    $signup = new SignupFactory($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_name"], $_POST["l_name"]);
+    $signup->signup($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_name"], $_POST["l_name"]);
     $signup->validate();
     if($signup->valid) $signup->save();
 }else{

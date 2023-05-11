@@ -1,16 +1,16 @@
 <?php
 require "../helpers/validator.php";
-require "../database/DatabaseConnection.php";
-// require "authenticate.php";
+// require "../database/DatabaseConnection.php";
+require "authenticate.php";
 // include "../database/connection.php";
 
-class SignupFactory {
+class SignupFactory extends Authentication{
     //data variables:
-    private $email;
-    private $password;
+    public $email;
+    public $password;
     private $authCode;
-    private $firstName;
-    private $lastName;
+    public $firstName;
+    public $lastName;
 
     public $status = "ONGOING";
 
@@ -20,16 +20,23 @@ class SignupFactory {
     public $authCodeErr;
     public $nameErr;
 
-    private $databaseConnection;
+    public $session;
 
-    function __construct($email, $password, $auth, $fname, $lname)
+    public $databaseConnection;
+
+    function __construct()
+    {
+        $this->session = new SessionManager();
+        $this->databaseConnection = new DatabaseConnection("auth");
+    }
+
+    public function signup($email, $password, $auth, $fname, $lname)
     {
         $this->email = $email;
         $this->password = $password;
         $this->authCode = $auth;
         $this->firstName = $fname;
         $this->lastName = $lname;
-        $this->databaseConnection = new DatabaseConnection("auth");
     }
 
     public function validate()

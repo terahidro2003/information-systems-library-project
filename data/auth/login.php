@@ -3,10 +3,17 @@ ob_start();
 session_start();
 require "LoginFactory.php";
 
+$login = new LoginFactory();
+if($login->auth())
+{
+   header('Location: /system/index.php');
+   exit();
+}
+
 //check if POST request with required fields exists
 if(isset($_POST['email'], $_POST['password']))
 {
-    $login = new LoginFactory($_POST['email'], $_POST['password']);
+    $login->login($_POST['email'], $_POST['password']);
     $login->validate();
     $login->authenticate();
     if($login->status)

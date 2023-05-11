@@ -1,5 +1,7 @@
 <?php
-    
+    require "../auth/authenticate.php";
+    $auth = new Authentication();
+    Authentication::check_authentication($auth);
 ?>
 
 <!DOCTYPE html>
@@ -82,11 +84,10 @@
                 <span style="font-size: 8px;">
                     Hello, 
                     <?php
-                    if(isset($_SESSION['email']))
+                    if(isset($auth->email))
                     {
-                        echo $_SESSION['email'];
+                        echo $auth->email;
                     }
-                    
                     ?>
                 </span>
             </div>

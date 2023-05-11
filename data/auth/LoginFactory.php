@@ -1,12 +1,14 @@
 <?php
 
 require "../helpers/validator.php";
-require "../database/DatabaseConnection.php";
+require "authenticate.php";
+// require "../sessions/SessionManager.php";
+// require "../database/DatabaseConnection.php";
 
-class LoginFactory
+class LoginFactory extends Authentication
 {
-    private $email;
-    private $password;
+    public $email;
+    public $password;
 
     public $err = false;
     public $status = false;
@@ -14,14 +16,26 @@ class LoginFactory
     public $valid = true;
     public $emailErr;
     public $passwordErr;
+    private $auth;
 
-    private $databaseConnection;
+    // public function __construct($e, $p)
+    // {
+    //     $this->email = $e;
+    //     $this->password = $p;
+    //     $this->databaseConnection = new DatabaseConnection("auth");
+    //     $this->session = new SessionManager();
+    // }
 
-    public function __construct($e, $p)
+    public function __construct()
+    {
+        $this->databaseConnection = new DatabaseConnection("auth");
+        $this->session = new SessionManager();
+    }
+
+    public function login($e, $p)
     {
         $this->email = $e;
         $this->password = $p;
-        $this->databaseConnection = new DatabaseConnection("auth");
     }
 
     public function validate()
@@ -33,7 +47,7 @@ class LoginFactory
 
     public function authenticate()
     {
-        if($this->valid)
+        if($this->valid && !$this->authenticated)
         {
             // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
             if ($stmt = $this->databaseConnection->con->prepare('SELECT id, password FROM auth_users WHERE email = ?')) {
@@ -59,12 +73,12 @@ class LoginFactory
                             $old_timestamp = null;
                             $session_active = 1;
                             $session_token = uniqid();
-                            $hashed_session_token = password_hash($session_token, PASSWORD_DEFAULT);
+                            //$hashed_session_token = password_hash($session_token, PASSWORD_DEFAULT);
                             $stmt->bind_param('ssssssss', 
                                 $id,
                                 $_SERVER['REMOTE_ADDR'],
                                 $_SERVER['HTTP_USER_AGENT'],
-                                $hashed_session_token,
+                                $session_token,
                                 $session_active,
                                 $current_timestamp,
                                 $current_timestamp,
@@ -72,8 +86,9 @@ class LoginFactory
                             );
                             if($stmt->execute())
                             {
-                                $this->status = true;
-                                setcookie("LIMS.auth", $session_token, time() + (86400 * 14), "/");
+                                $this->status = true;                                
+                                $this->session->set('LIMS.auth', $session_token);
+
                                 header("Location: /system/index.php");
                                 exit();
                             }
