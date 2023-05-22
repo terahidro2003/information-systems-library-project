@@ -4,7 +4,7 @@
 require "sessions/SessionManager.php";
 require "database/DatabaseConnection.php";
 
-        error_reporting(0);
+        // error_reporting(0);
 		$session = new SessionManager();
 		if($session->has('LIMS.auth'))
 		{
