@@ -1,9 +1,9 @@
 CREATE TABLE library_books(
-    id int primary key,
-    title varchar(255), 
-    description varchar(255),
-    quantity int,
-    year_published int,
+    id int primary key AUTO_INCREMENT,
+    title varchar(255), -- primary
+    description varchar(255), -- primary
+    quantity int, -- primary
+    year_published int, 
     author_group_id int, -- we group authors as book can be written by multiple authors
     publisher_id int,
     added_by_user int, 
