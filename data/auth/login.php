@@ -4,7 +4,7 @@ session_start();
 require "LoginFactory.php";
 
 $login = new LoginFactory();
-if($login->auth())
+if($login->auth(false, null))
 {
    header('Location: /system/index.php');
    exit();

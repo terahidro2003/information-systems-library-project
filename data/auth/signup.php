@@ -2,7 +2,7 @@
 include "SignupFactory.php";
 ob_start();
 $signup = new SignupFactory();
-if($signup->auth())
+if($signup->auth(false, null))
 {
    exit(header('Location: /system/index.php'));
 }
