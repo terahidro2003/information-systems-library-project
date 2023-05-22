@@ -56,22 +56,22 @@
                             'cover_image_id' => isset($_REQUEST['cover_image_id']) ? $_REQUEST['cover_image_id'] : "null",
                             'language' => isset($_REQUEST['language']) ? $_REQUEST['language'] : "null",
                             'type' => isset($_REQUEST['type']) ? $_REQUEST['type'] : "null",
-                            'created_at' => date("yyyy-mm-dd t:m:s"),
-                            'updated_at' => date("yyyy-mm-dd t:m:s"),
-                            'deleted_at' => "null"
+                            'created_at' => date("Y-m-d H:i:s", time()),
+                            'updated_at' => date("Y-m-d H:i:s", time()),
+                            'deleted_at' => date("Y-m-d H:i:s", time())
                         );
-
                         if($stmt = $db->con->prepare("INSERT INTO library_books (id, title, description, quantity, year_published, author_group_id, publisher_id, added_by_user, ISBN_type, ISBN_identifier, page_count, cover_image_id, language, type, created_at, updated_at, deleted_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"))
                         {
-                            $stmt->bind_param('issiiiiissiissddd', 
-                                $fields["id"], 
-                                $fields["title"], 
-                                $fields["description"], 
-                                $fields["quantity"], 
-                                $fields["year_published"],
-                                $fields["author_group_id"],
-                                $fields["publisher_id"],
-                                $fields["added_by_user"],
+                            
+                            $stmt->bind_param('sssssssssssssssss', 
+                                $fields['id'], 
+                                $fields['title'],
+                                $fields['description'],
+                                $fields['quantity'],
+                                $fields['year_published'],
+                                $fields['author_group_id'],
+                                $fields['publisher_id'],
+                                $fields['added_by_user'],
                                 $fields["ISBN_type"],
                                 $fields["ISBN_identifier"],
                                 $fields["page_count"],
@@ -83,23 +83,17 @@
                                 $fields["deleted_at"]
                             );
                             
-                            if($stmt->execute())
-                            {
-                                echo "SUCCESS";
-                            }else
-                            {
-                                echo "FAILED";
-                            }
-                            
-                        }else{
-                            echo 'FAILED';
+                            if($stmt->execute()) echo "SUCCESS";
+                            else echo "FAILED";
+                        }
+                        else{
+                            echo "FAILED";
                         }
                         break;
                     case 'delete_books':
                         break;
                     case 'edit_books':
                         break;
-                    
                     default:
                         # code...
                         break;
