@@ -91,6 +91,19 @@
                         }
                         break;
                     case 'delete_books':
+                        if(!isset($_REQUEST['id'])) break;
+                        if($stmt = $db->con->prepare('DELETE FROM library_books WHERE id=?'))
+                        {
+                            $stmt->bind_param('i', $_REQUEST['id']);
+                            if($stmt->execute())
+                            {
+                                echo "SUCCESS";
+                            }else{
+                                echo "FAILED";
+                            }
+                        }else{
+                            echo "FAILED";
+                        }
                         break;
                     case 'edit_books':
                         break;
