@@ -1,5 +1,4 @@
 <?php
- error_reporting(1);
     if(isset($_REQUEST['token']))
     {
         $fields = array(
@@ -144,6 +143,7 @@
         }
     }else{
         echo "403 - UNAUTHORIZED";
+        echo $_REQUEST['token'];
     }
 
 ?>

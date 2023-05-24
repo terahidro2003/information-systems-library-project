@@ -8,7 +8,7 @@ class Authentication
 	public $email;
 	public $role;
 	public $user_id;
-	protected $session;
+	public $session;
 	public $databaseConnection;
 
 	public function __construct()

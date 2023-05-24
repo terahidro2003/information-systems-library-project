@@ -11,7 +11,8 @@ require "database/DatabaseConnection.php";
 			$connection = new DatabaseConnection("auth");
 			if($stmt = $connection->con->prepare('SELECT user_id FROM auth_login_history WHERE session_token = ?'))
 			{
-				$stmt->bind_param('s', $session->get('LIMS.auth'));
+				$sessionToken = $session->get('LIMS.auth');
+				$stmt->bind_param('s', $sessionToken);
 				$stmt->execute();
 				$stmt->store_result();
 				
