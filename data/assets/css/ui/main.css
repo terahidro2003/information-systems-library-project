@@ -21,7 +21,34 @@
      margin: 0;
      padding: 0;
      font-family: 'Plus Jakarta Sans', sans-serif;
+     text-decoration: none;
  }
 
+ .link
+ {
+    color: blue;
+ }
 
+ #system-body
+ {
+    width: calc(100% - 12.5rem);
+    min-height: 100vh;
+    position: absolute;
+    left: 12.5rem;
+    top: 4em;
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    box-sizing: border-box;
+    background: #f4f4f4;
+ }
+
+#system-body .header
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
