@@ -36,7 +36,10 @@ feedback.then(books => {
                 <br/>
                 <span class="card-text">Published: ${book.year_published}</span>
                 </br>
-                <a class="link mt-7" href="">Learn more</a>
+                <form method='get' action='/system/books_view.php'>
+                    <input type='hidden' name='book_id' value='${book.id}'>
+                    <button type='submit' class="link mt-7">Learn more</button>
+                </form>
             </div>
         `;
         iterator++;

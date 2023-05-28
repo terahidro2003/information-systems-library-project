@@ -235,7 +235,11 @@
     border-radius: 5px;
     width: calc(0.20 * (100vw - 12.5rem - 5em));
 }
-
+.card-big
+{
+    max-width: 90%;
+    width: 100% !important;
+}
 .card span
 {
     font-size: .8em;
@@ -260,4 +264,9 @@
 {
     padding-top: 1em !important;
     margin-top: 1em !important;
+}
+
+.content
+{
+    width: calc(100vw - 5rem - 12.5rem);
 }

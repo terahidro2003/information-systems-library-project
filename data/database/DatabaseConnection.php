@@ -1,7 +1,7 @@
 <?php
 
 class DatabaseConnection{
-    private $db_host = '172.19.0.2';
+    private $db_host = '172.19.0.1';
     private $db_user = 'root';
     private $db_pwd = 'librarysystemroot123';
     private $db_name = 'libraryDB';

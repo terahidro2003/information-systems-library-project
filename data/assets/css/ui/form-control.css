@@ -1,7 +1,7 @@
 .form-control
 {
     display: block;
-    width: 100%;
+    width: 90%;
     height: calc(1em + .75rem + 2px);
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -12,6 +12,16 @@
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
+}
+
+.input-group
+{
+    margin-top: 1.3em;
+}
+.input-group label
+{
+    font-weight: 600;
+    padding-bottom: .4em;
 }
 
 label

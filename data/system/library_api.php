@@ -20,6 +20,7 @@
             'updated_at' => date("Y-m-d H:i:s", time()),
             'deleted_at' => date("Y-m-d H:i:s", time())
         );
+        
          //authentication
         require "../auth/authenticate.php";
         $auth = new Authentication();
@@ -95,7 +96,7 @@
                             $stmt->bind_param('i', $_REQUEST['id']);
                             if($stmt->execute())
                             {
-                                echo "SUCCESS";
+                                $returnable = "SUCCESS";
                             }else{
                                 echo "FAILED";
                             }
@@ -105,6 +106,7 @@
                         break;
                     case 'edit_books':
                         if(!isset($_REQUEST['id'])) break;
+                        
                         if($stmt = $db->con->prepare("UPDATE library_books SET title=?, description=?, quantity=?, year_published=?, author_group_id=?, publisher_id=?, added_by_user=?, ISBN_type=?, ISBN_identifier=?, page_count=?, cover_image_id=?, language=?, type=?, created_at=?, updated_at=?, deleted_at=? WHERE id=?"))
                         {
                             $stmt->bind_param('sssssssssssssssss', 
@@ -127,7 +129,7 @@
                                 $_REQUEST["id"]
                             );
                             
-                            if($stmt->execute()) echo "SUCCESS";
+                            if($stmt->execute()) $returnable = "SUCCESS";
                             else echo "FAILED";
                         }
                         else{
