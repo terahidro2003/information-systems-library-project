@@ -6,13 +6,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/ui/main.css">
-    <title>Dashboard | LIMS | v0.0.1</title>
+    <title>New Book | LIMS | v0.0.1</title>
     <?php
         if(isset($auth->session))
         {
@@ -20,9 +19,21 @@
         }
     ?>
 </head>
-
 <body>
-    <div class="sidenav">
+<div class="topnav">
+        <div class="search-area">
+            <input type="text" class="form-control" placeholder="Search here...">
+        </div>
+        <div>
+            <?php
+              if(isset($auth->email))
+              {
+                  echo $auth->email;
+              }   
+            ?>
+        </div>
+    </div>
+<div class="sidenav">
         <div class="logo" style="color: #fff;">
             <div style="text-align: center;">
                 LIMS
@@ -38,8 +49,8 @@
                 </span>
             </div>
         </div>
+       
         <div class="sidenav-content">
-
             <div class="section">
                 <span class="section-name">Library</span>
                 <a href="#somewhere" class="active" id="nav-books-link">
@@ -69,34 +80,21 @@
             </div>
         </div>
     </div>
-    <div class="topnav">
-        <div class="search-area">
-            <input type="text" class="form-control" placeholder="Search here...">
-        </div>
-        <div>
-            <?php
-              if(isset($auth->email))
-              {
-                  echo $auth->email;
-              }   
-            ?>
-        </div>
-    </div>
-
     <div id="system-body">
         <div class="header d-flex">
-            <h1>Books</h1>
-            <div>
-                <a href="books_create.php" class="btn btn-primary">New book</a>
-            </div>
+            <h1 id="book-title">{undefined book}</h1>
         </div>
-        <div class="content" id="books-content">
-            <div class="row" id="cards-row">
-                
+        <div class="content mt-10 row">
+            <div class="card card-big">
+                <h3>Book information</h3>
+                <div id="book-fields"></div>
+                <a href="#create" class="mt-5 btn btn-primary" onclick="create();">Create</a>
+            </div>
+            <div class="card card-big">
+                <div class="book-bg"></div>
             </div>
         </div>
     </div>
-    <script src="books.js"></script>
+    <script src="books_create.js"></script>
 </body>
-
 </html>

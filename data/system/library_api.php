@@ -5,15 +5,15 @@
             'id' => isset($_REQUEST['id']) ? $_REQUEST['id'] : "null",
             'title' => isset($_REQUEST['title']) ? $_REQUEST['title'] : "null",
             'description' => isset($_REQUEST['description']) ? $_REQUEST['description'] : "null",
-            'quantity' => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : "null",
-            'year_published' => isset($_REQUEST['year_published']) ? $_REQUEST['year_published'] : "null",
-            'author_group_id' => isset($_REQUEST['author_group_id']) ? $_REQUEST['author_group_id'] : "null",
-            'publisher_id' => isset($_REQUEST['publisher_id']) ? $_REQUEST['publisher_id'] : "null",
-            'added_by_user' => isset($_REQUEST['added_by_user']) ? $_REQUEST['added_by_user'] : "null",
+            'quantity' => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : null,
+            'year_published' => isset($_REQUEST['year_published']) ? $_REQUEST['year_published'] : null,
+            'author_group_id' => isset($_REQUEST['author_group_id']) ? $_REQUEST['author_group_id'] : null,
+            'publisher_id' => isset($_REQUEST['publisher_id']) ? $_REQUEST['publisher_id'] : null,
+            'added_by_user' => isset($_REQUEST['added_by_user']) ? $_REQUEST['added_by_user'] : null,
             'ISBN_type' => isset($_REQUEST['ISBN_type']) ? $_REQUEST['ISBN_type'] : "null",
             'ISBN_identifier' => isset($_REQUEST['ISBN_identifier']) ? $_REQUEST['ISBN_identifier'] : "null",
-            'page_count' => isset($_REQUEST['page_count']) ? $_REQUEST['page_count'] : "null",
-            'cover_image_id' => isset($_REQUEST['cover_image_id']) ? $_REQUEST['cover_image_id'] : "null",
+            'page_count' => isset($_REQUEST['page_count']) ? $_REQUEST['page_count'] : null,
+            'cover_image_id' => isset($_REQUEST['cover_image_id']) ? $_REQUEST['cover_image_id'] : null,
             'language' => isset($_REQUEST['language']) ? $_REQUEST['language'] : "null",
             'type' => isset($_REQUEST['type']) ? $_REQUEST['type'] : "null",
             'created_at' => date("Y-m-d H:i:s", time()),
@@ -82,6 +82,7 @@
                                 $fields["deleted_at"]
                             );
                             
+                            echo "SMT";
                             if($stmt->execute()) echo "SUCCESS";
                             else echo "FAILED";
                         }
@@ -137,7 +138,7 @@
                         }
                         break;
                     default:
-                        # code...
+                        $returnable = $fields;
                         break;
                 }
                 print json_encode($returnable);

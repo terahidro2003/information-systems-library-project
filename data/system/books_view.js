@@ -31,6 +31,7 @@ var fields = [];
 
 feedback.then(book => {
     book_title_header.innerHTML = `Book: ${book[0].title}`;
+    document.title = `${book[0].title} | LIMS | v0.0.1`;
     var i;
     for(var field in book[0])
     {
@@ -72,12 +73,12 @@ function update()
 
 function remove()
 {
-    var response = fetchAsync('/system/library_api.php', 'delete_books', token, id);
+    var response = fetchAsync("/system/library_api.php", "delete_books", token, book_id);
     response.then(r => {
         if(r == 'SUCCESS')
         {
             console.log("OK");
-            location.href("/system/index.php");
+            location.href = "/system/index.php";
         }
     });
 }
