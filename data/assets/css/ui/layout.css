@@ -1,11 +1,15 @@
 
 .sidenav {
-    width: 12.5rem;
+    width: 14.5rem;
     height: 100vh;
     position: fixed;
-    background: #111130;
-
+    background: #f4f4f4;
     padding-top: 2.5rem;
+}
+
+.admin-panel .sidenav
+{
+    background: #3943B7;
 }
 
 
@@ -16,6 +20,7 @@
     flex-direction: row;
     justify-content: center;
     margin: 0 auto;
+    color: #262642 !important;
 }
 
 .section {
@@ -26,7 +31,7 @@
 }
 
 .section .section-name {
-    color: #999999;
+    color: #262642;
     opacity: .6;
     text-transform: uppercase;
     font-size: 0.663rem;
@@ -34,9 +39,14 @@
     margin-bottom: 0.4rem;
 }
 
+.admin-panel .section .section-name, .admin-panel .section a, .admin-panel .sidenav .logo
+{
+    color: #f4f4f4 !important;
+}
+
 .section a {
     text-decoration: none;
-    color: #ddd;
+    color: #222;
     background-color: transparent;
     padding: 0.75rem 1.2rem;
     margin: 0.325rem 0;
@@ -47,13 +57,13 @@
 {
     position: fixed;
     z-index: 9999;
-    width: calc(100vw - 12.5rem);
-    left: 12.5rem;
+    width: calc(100vw - 14.5rem);
+    left: 14.5rem;
     float: right;
     box-sizing: border-box;
-    padding: .8em 2em;
+    padding: 1.8em 2em;
     /* background: pink; */
-    border-bottom: 1px solid #ddd;
+    /* border-bottom: 1px solid #ddd; */
     background: #fff;
     display: inline-flex;
     justify-content: space-between;
@@ -75,10 +85,12 @@
 
 .section a svg {
     margin-right: .75rem;
+    color: #262642;
 }
 
 .section .active {
     background-color: #262642;
+    color: #fff;
 }
 
 .d-flex
@@ -269,4 +281,39 @@
 .content
 {
     width: calc(100vw - 5rem - 12.5rem);
+}
+
+.divTable{
+	display: table;
+	width: 100%;
+    /* padding-left: 2.5em; */
+    padding-right: 2.5em;
+    padding-top: 2.5em;
+    box-sizing: border-box;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableCell, .divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+.divTableHeaderRow *
+{
+    font-weight: 600;
+    background-color: #f4f4f4 !important;
 }

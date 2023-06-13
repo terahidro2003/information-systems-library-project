@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/ui/main.css">
+    <title>LIMS v2.0 Front-end Beta</title>
+</head>
+<body>
+    <div class="sidenav">
+        <div class="logo" style="color: #fff;">
+            <div style="text-align: center;">
+                LIMS
+                <br />
+                <span style="font-size: 8px;">
+                    Library Information Managament System
+                </span>
+            </div>
+        </div>
+        <div class="sidenav-content">
+
+            <div class="section">
+                <span class="section-name">Library</span>
+                <a href="#somewhere" class="active" id="nav-books-link">
+                    <span>Books</span>
+                </a>
+                <a href="#somewhere" class="">
+                    <span>My Leases</span>
+                </a>
+                <a href="#somewhere" class="">
+                    <span>My Ebooks</span>
+                </a>
+            </div>
+            <div class="section">
+                <span class="section-name">Settings</span>
+                <a href="#somewhere" class="">Security</a>
+                <a href="#somewhere" class="">Statistics</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="topnav">
+        <div class="search-area">
+            <input type="text" class="form-control" placeholder="Search here...">
+        </div>
+        <div>
+            Hi, Juozas Skarbalius
+        </div>
+    </div>
+
+
+    <div id="system-body">
+        <div class="header d-flex">
+            <h1>Add new book</h1>
+            <div>
+               
+            </div>
+        </div>
+        <div class="content d-flex-rows d-flex" id="books-content">
+            <div class="book-cover-bg d-flex d-flex-align-center"  style="background-color: #f4f4f4">
+                <div>
+                    <h3 style="text-align: center;">Upload cover image image here</h3>
+                    <input type="file" name="" id="">
+                </div>
+            </div>
+            <div class="book-description">
+                <div class="parameter">
+                    <b>Author: </b> 
+                    <input class="form-control" type="text" placeholder="author" value="">
+                </div>
+                <div class="parameter">
+                    <b>Description: </b> <br/>
+                    <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="parameter">
+                    <b>Total Quantity: </b> 
+                    <input class="form-control" type="number" placeholder="author" value="George Orwell">
+                </div>
+                <div class="parameter">
+                    <b>Year published: </b> 
+                    <input class="form-control" type="text" placeholder="author" value="">
+                </div>
+                <div class="parameter">
+                    <b>ISBN: </b> 
+                    <input class="form-control" type="text" placeholder="author" value="">
+                </div>
+                <div class="parameter">
+                    <b>Pages: </b>
+                    <input class="form-control" type="number" placeholder="author" value="">
+                </div>
+                <div class="parameter">
+                    <b>Language: </b> 
+                    <input class="form-control" type="text" placeholder="author" value="EN">
+                </div>
+                <div class="parameter">
+                    <b>Type: </b> 
+                    <select name="" id="" class="form-control">
+                        <option value="" default>Physical Book</option>
+                        <option value="">Electronic Book</option>
+                    </select>
+                </div>
+                <a class="btn btn-primary mt-9">Save changes</a>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
