@@ -35,7 +35,7 @@
         
                 switch ($request) {
                     case 'get_all_books':
-                        if($stmt = $db->con->prepare('SELECT * FROM library_books'))
+                        if($stmt = $db->con->prepare('SELECT * FROM view_books_with_covers'))
                         {
                             $stmt->execute();
                                 $result = $stmt->get_result();
@@ -48,7 +48,7 @@
                         break;
                     case 'get_book_by_id':
                         if(!isset($_REQUEST['id'])) break;
-                        if($stmt = $db->con->prepare('SELECT * FROM library_books WHERE id=?'))
+                        if($stmt = $db->con->prepare('SELECT * FROM view_books_with_covers WHERE id=?'))
                         {
                             $stmt->bind_param('i', $_REQUEST['id']);
                             $stmt->execute();
@@ -60,10 +60,11 @@
                         }
                         break;
                     case 'insert_books':
-                        if($stmt = $db->con->prepare("INSERT INTO library_books (id, title, description, quantity, year_published, author_group_id, publisher_id, added_by_user, ISBN_type, ISBN_identifier, page_count, cover_image_id, language, type, created_at, updated_at, deleted_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"))
+                        if($stmt = $db->con->prepare("INSERT INTO library_books (title, description, quantity, year_published, author_group_id, publisher_id, added_by_user, ISBN_type, ISBN_identifier, page_count, language, type, created_at, updated_at, deleted_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"))
                         {
-                            $stmt->bind_param('sssssssssssssssss', 
-                                $fields['id'], 
+                            $current_timestamp = date("Y-m-d H:i:s", time());
+                            
+                            $stmt->bind_param('sssssssssssssss', 
                                 $fields['title'],
                                 $fields['description'],
                                 $fields['quantity'],
@@ -74,17 +75,20 @@
                                 $fields["ISBN_type"],
                                 $fields["ISBN_identifier"],
                                 $fields["page_count"],
-                                $fields["cover_image_id"],
                                 $fields["language"],
                                 $fields["type"],
-                                $fields["created_at"],
-                                $fields["updated_at"],
-                                $fields["deleted_at"]
+                                $current_timestamp,
+                                $current_timestamp,
+                                $current_timestamp
                             );
+
+                            echo "";
                             
-                            echo "SMT";
-                            if($stmt->execute()) echo "SUCCESS";
-                            else echo "FAILED";
+                            if($stmt->execute()){
+                                $returnable["status"] =  "SUCCESS";
+                                $returnable["id"] = mysqli_stmt_insert_id($stmt);
+                            }
+                            else $returnable = "FAILED";
                         }
                         else{
                             echo "FAILED";

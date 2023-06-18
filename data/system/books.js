@@ -30,7 +30,7 @@ feedback.then(books => {
         }
         cardsrowcontent += `
             <div class="card">
-                <div class="background" style='background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/640px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg")'></div>
+                <div class="book-card-bg" style='background-image: url("files/${book.name}")'></div>
                 <h3>${book.title}</h3>
                 <span class="card-subtitle">${book.title}</span>
                 <br/>
@@ -39,6 +39,10 @@ feedback.then(books => {
                 <form method='get' action='/system/books_view.php'>
                     <input type='hidden' name='book_id' value='${book.id}'>
                     <button type='submit' class="link mt-7">Learn more</button>
+                </form>
+                <form method='get' action='/system/books_edit.php'>
+                    <input type='hidden' name='book_id' value='${book.id}'>
+                    <button type='submit' class="link mt-7 ml-5">Edit</button>
                 </form>
             </div>
         `;

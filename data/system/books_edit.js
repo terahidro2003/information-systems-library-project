@@ -41,14 +41,49 @@ feedback.then(book => {
         }
         if(field == 'id' || field == 'filetype' || field == 'added_by' || field == 'name') continue;
         fields.push(field);
-        field_inputs += `<div class='parameter'><b>${field}: </b>`;
+        field_inputs += `<div class='parameter'><b>${field}</b>`;
+        var disabled_field = '';
+        if(field == 'id') disabled_field = 'disabled';
+        field_inputs += `<input type='text' id='${field}' class='form-control' placeholder='${field}'`;
         if(book[0][field] != null)
         {
-            field_inputs += `${book[0][field]}</div>`;
+            field_inputs += `value='${book[0][field]}' ${disabled_field}/>`;
         }else{
-            field_inputs += `</div>`;
+            field_inputs += ` ${disabled_field}/></div>`;
         }
         i++;
     }
     book_fields_el.innerHTML = field_inputs;
 });
+
+function update()
+{
+    var body = ``;
+    body += `token=${token}&data=edit_books`;
+    for(var i = 0; i<fields.length; i++)
+    {
+        console.log(fields[i]);
+        body += `&${fields[i]}=${document.getElementById(fields[i]).value}`;
+    }
+    console.log(body);
+    var response = fetchAsyncUpdate('/system/library_api.php', 'edit_books', token, body);
+    response.then(r => {
+        if(r == 'SUCCESS') {
+            console.log("OK");
+            location.reload();
+        }
+        else console.error("FAILED UPDATE");
+    });
+}
+
+function remove()
+{
+    var response = fetchAsync("/system/library_api.php", "delete_books", token, book_id);
+    response.then(r => {
+        if(r == 'SUCCESS')
+        {
+            console.log("OK");
+            location.href = "/system/index.php";
+        }
+    });
+}
