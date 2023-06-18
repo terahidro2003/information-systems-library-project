@@ -60,31 +60,22 @@
         </div>
        
         <div class="sidenav-content">
+
             <div class="section">
                 <span class="section-name">Library</span>
                 <a href="#somewhere" class="active" id="nav-books-link">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 1L5.5 6.5" stroke="white" stroke-opacity="0.9" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M11 1L7.5 11L5.5 6.5L1 4.5L11 1Z" stroke="white" stroke-opacity="0.9"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
                     <span>Books</span>
                 </a>
                 <a href="#somewhere" class="">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 1L5.5 6.5" stroke="white" stroke-opacity="0.9" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M11 1L7.5 11L5.5 6.5L1 4.5L11 1Z" stroke="white" stroke-opacity="0.9"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>Leases</span>
+                    <span>My Leases</span>
+                </a>
+                <a href="#somewhere" class="">
+                    <span>My Ebooks</span>
                 </a>
             </div>
             <div class="section">
                 <span class="section-name">Settings</span>
-                <a href="#somewhere" class="">Users</a>
-                <a href="#somewhere" class="">Configuration</a>
+                <a href="#somewhere" class="">Security</a>
                 <a href="#somewhere" class="">Statistics</a>
             </div>
         </div>
@@ -93,17 +84,14 @@
         <div class="header d-flex">
             <h1 id="book-title">{undefined book}</h1>
             <div>
-                <a class="btn btn-danger" onclick="remove()">Delete</a>
+                <a href="" class="btn btn-primary">Borrow</a>
             </div>
         </div>
-        <div class="content mt-10 row">
-            <div class="card card-big">
+        <div class="content d-flex-rows d-flex" id="books-content">
+        <div id="book-cover-bg" class="book-cover-bg" style="background-image: url('https://images.penguinrandomhouse.com/cover/9788418915093');"></div>
+            <div class="book-description">
                 <h3>Book information</h3>
-                <div id="book-fields"></div>
-                <a href="#update" class="mt-5 btn btn-primary" onclick="update();">Update</a>
-            </div>
-            <div class="card card-big">
-                <div class="book-bg"></div>
+                <div class="" id="book-fields"></div>
             </div>
         </div>
     </div>

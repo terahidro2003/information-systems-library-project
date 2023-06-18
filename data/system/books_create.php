@@ -1,7 +1,9 @@
 <?php
     require "../auth/authenticate.php";
     $auth = new Authentication();
+    
     Authentication::check_authentication($auth);
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +31,12 @@
               if(isset($auth->email))
               {
                   echo $auth->email;
+        
               }   
+              if(isset($role))
+              {
+                echo $role;
+              }
             ?>
         </div>
     </div>
@@ -54,28 +61,18 @@
             <div class="section">
                 <span class="section-name">Library</span>
                 <a href="#somewhere" class="active" id="nav-books-link">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 1L5.5 6.5" stroke="white" stroke-opacity="0.9" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M11 1L7.5 11L5.5 6.5L1 4.5L11 1Z" stroke="white" stroke-opacity="0.9"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
                     <span>Books</span>
                 </a>
                 <a href="#somewhere" class="">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 1L5.5 6.5" stroke="white" stroke-opacity="0.9" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M11 1L7.5 11L5.5 6.5L1 4.5L11 1Z" stroke="white" stroke-opacity="0.9"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>Leases</span>
+                    <span>My Leases</span>
+                </a>
+                <a href="#somewhere" class="">
+                    <span>My Ebooks</span>
                 </a>
             </div>
             <div class="section">
                 <span class="section-name">Settings</span>
-                <a href="#somewhere" class="">Users</a>
-                <a href="#somewhere" class="">Configuration</a>
+                <a href="#somewhere" class="">Security</a>
                 <a href="#somewhere" class="">Statistics</a>
             </div>
         </div>
@@ -83,16 +80,34 @@
     <div id="system-body">
         <div class="header d-flex">
             <h1 id="book-title">{undefined book}</h1>
+            <h4>Phase 1: General Book Information</h4>
         </div>
-        <div class="content mt-10 row">
-            <div class="card card-big">
-                <h3>Book information</h3>
-                <div id="book-fields"></div>
-                <a href="#create" class="mt-5 btn btn-primary" onclick="create();">Create</a>
-            </div>
-            <div class="card card-big">
-                <div class="book-bg"></div>
-            </div>
+        <div id="alert-success" style="display: none;" class="mt-8 mb-8 alert alert-success">
+            Book information saved successfully
+        </div>
+        <div id="alert-error" style="display: none;" class="mt-8 mb-8 alert alert-danger">
+            Failed to save book information. Please check fields and if unsuccessfull contact system administrator.
+        </div>
+        <div id="alert-validation" style="display: none;" class="mt-8 mb-8 alert alert-warning">
+            Please fill all mandatory fields.
+        </div>
+        <div class="content">
+        <div class="book-description" id="phase1">
+                <div class="d-flex-rows d-flex d-flex-align-center d-justify-between d-wrap" id="book-fields"></div>
+                <a href="#create" class="mt-5 btn btn-primary" onclick="create();">Save</a>
+        </div>
+        <div id="file-upload-panel" class="book-cover-bg d-flex d-flex-align-center"  style="background-color: #f4f4f4;display: none;">
+            <form method="POST" action="/system/file_api.php" enctype="multipart/form-data">
+                    <div>
+                        <h3 style="text-align: center;">Upload cover image image here</h3>
+                        <input name="type" type="text" value="cover" hidden>
+                        <input name="id" type="text" id="book-id" hidden>
+                        <input name="file" type="file" accept="image/jpeg, image/png, image/jpg" name="book-cover-image">
+                    </div>
+                        <button type="submit" class="btn btn-primary">Upload cover</button>
+            </form>
+        </div>
+            
         </div>
     </div>
     <script src="books_create.js"></script>

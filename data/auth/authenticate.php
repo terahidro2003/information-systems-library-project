@@ -34,6 +34,7 @@ class Authentication
 			header('Location: /auth/login.php');
 			exit();
 		}
+		return $auth->role;	
 	}
 
 	public function auth($api, $token)
@@ -69,6 +70,7 @@ class Authentication
 						{
 							$stmt->bind_result($this->email, $this->role);
 							$stmt->fetch();
+							
 							$this->authenticated = true;
 							return true;
 						}

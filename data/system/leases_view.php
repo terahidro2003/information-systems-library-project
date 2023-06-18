@@ -6,21 +6,12 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/ui/main.css">
-    <title>Dashboard | LIMS | v0.0.1</title>
-    <?php
-        if(isset($auth->session))
-        {
-            echo "<script async>var token = '", $auth->session->get('LIMS.auth'), "';</script>";
-        }
-    ?>
+    <link rel="stylesheet" href="/assets/css/ui/main.css">
+    <title>Leases | LIMS v2.0</title>
 </head>
-
 <body>
     <div class="sidenav">
         <div class="logo" style="color: #fff;">
@@ -42,10 +33,10 @@
 
             <div class="section">
                 <span class="section-name">Library</span>
-                <a href="#somewhere" class="active" id="nav-books-link">
+                <a href="/system/index.php" id="nav-books-link">
                     <span>Books</span>
                 </a>
-                <a href="#somewhere" class="">
+                <a href="/system/leases_view.php" class="active">
                     <span>My Leases</span>
                 </a>
                 <a href="#somewhere" class="">
@@ -59,6 +50,7 @@
             </div>
         </div>
     </div>
+
     <div class="topnav">
         <div class="search-area">
             <input type="text" class="form-control" placeholder="Search here...">
@@ -73,20 +65,47 @@
         </div>
     </div>
 
+
     <div id="system-body">
         <div class="header d-flex">
-            <h1>Books</h1>
-            <div>
-                <a href="books_create.php" class="btn btn-primary">New book</a>
-            </div>
+            <h1>My leases</h1>
         </div>
         <div class="content" id="books-content">
-            <div class="row" id="cards-row">
-                
+            <div class="divTable" style="width: 100%;">
+                <div class="divTableBody">
+                    <div class="divTableRow divTableHeaderRow">
+                        <div class="divTableCell">&nbsp;ID</div>
+                        <div class="divTableCell">Book Title </div>
+                        <div class="divTableCell">Author </div>
+                        <div class="divTableCell">Leased from </div>
+                        <div class="divTableCell">Deadline </div>
+                        <div class="divTableCell">Authorized by </div>
+                        <div class="divTableCell">Status</div>
+                    </div>
+                    <div class="divTableRow">
+                        <div class="divTableCell">&nbsp; 81</div>
+                        <div class="divTableCell">&nbsp; 1984</div>
+                        <div class="divTableCell">&nbsp;
+                            George Orwell
+                        </div>
+                        <div class="divTableCell">&nbsp;
+                            2023-02-12 12:51:32
+                        </div>
+                        <div class="divTableCell">&nbsp;
+                            2023-03-12 12:51:32
+                        </div>
+                        <div class="divTableCell">&nbsp;
+                            J. Skarbalius
+                        </div>
+                        <div class="divTableCell">&nbsp;
+                            Pending
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="books.js"></script>
-</body>
 
+
+</body>
 </html>
