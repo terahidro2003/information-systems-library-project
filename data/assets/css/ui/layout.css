@@ -106,6 +106,7 @@
 .d-flex-rows
 {
     flex-direction: row;
+    flex-grow: 3;
 }
 
 .d-flex-align-center
@@ -121,6 +122,18 @@
 .d-flex-align-right
 {
     align-items: flex-end;
+}
+
+.d-justify-between
+{
+    justify-content: space-between;
+}
+
+.d-wrap
+{
+    flex-wrap: wrap;
+    row-gap: 1.5em;
+    column-gap: 20px;
 }
 
 .d-block
@@ -296,11 +309,13 @@
 }
 .divTableCell, .divTableHead {
 	border: 1px solid #999999;
+    border-top: none;
 	display: table-cell;
-	padding: 3px 10px;
+	padding: 6px 20px;
 }
 .divTableHeading {
-	background-color: #EEE;
+	background-color: #000;
+    color: #fff;
 	display: table-header-group;
 	font-weight: bold;
 }
@@ -315,5 +330,6 @@
 .divTableHeaderRow *
 {
     font-weight: 600;
-    background-color: #f4f4f4 !important;
+    background-color: #3943B7 !important;
+    color: #fff;
 }
