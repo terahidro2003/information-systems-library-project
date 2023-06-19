@@ -11,8 +11,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/ui/main.css">
     <title>Leases | LIMS v2.0</title>
+    <?php
+        if(isset($auth->session))
+        {
+            echo "<script async>var token = '", $auth->session->get('LIMS.auth'), "';</script>";
+        }
+    ?>
 </head>
-<body>
+<?php
+
+    if($auth->role == 1)
+    {
+        echo '<body class="admin-panel">';
+        echo '<script async> var is_admin = true; </script>';
+    }else{
+        echo '<body>';
+        echo '<script async> var is_admin = false; </script>';
+    }
+    
+?>
     <div class="sidenav">
         <div class="logo" style="color: #fff;">
             <div style="text-align: center;">
@@ -30,22 +47,43 @@
             </div>
         </div>
         <div class="sidenav-content">
-
+            
             <div class="section">
                 <span class="section-name">Library</span>
                 <a href="/system/index.php" id="nav-books-link">
                     <span>Books</span>
                 </a>
                 <a href="/system/leases_view.php" class="active">
-                    <span>My Leases</span>
+                <?php
+                    if($auth->role == 1)
+                    {
+                        echo 'All leases';
+                    }else{
+                        echo 'My Leases';
+                    }
+                ?>
                 </a>
                 <a href="#somewhere" class="">
-                    <span>My Ebooks</span>
+                <?php
+                    if($auth->role == 1)
+                    {
+                        echo 'All Ebooks';
+                    }else{
+                        echo 'My Ebooks';
+                    }
+                ?>
                 </a>
             </div>
             <div class="section">
                 <span class="section-name">Settings</span>
                 <a href="#somewhere" class="">Security</a>
+                <?php
+                    if($auth->role == 1)
+                    {
+                        echo '<a href="" class="">All users</a>';
+                        echo '<a href="" class="">Login Histories</a>';
+                    }
+                ?>
                 <a href="#somewhere" class="">Statistics</a>
             </div>
         </div>
@@ -68,44 +106,25 @@
 
     <div id="system-body">
         <div class="header d-flex">
-            <h1>My leases</h1>
+            <h1>
+                <?php
+            if($auth->role == 1)
+                    {
+                        echo 'All leases';
+                    }else{
+                        echo 'My leases';
+                    }
+                    ?>
+            </h1>
         </div>
         <div class="content" id="books-content">
             <div class="divTable" style="width: 100%;">
-                <div class="divTableBody">
-                    <div class="divTableRow divTableHeaderRow">
-                        <div class="divTableCell">&nbsp;ID</div>
-                        <div class="divTableCell">Book Title </div>
-                        <div class="divTableCell">Author </div>
-                        <div class="divTableCell">Leased from </div>
-                        <div class="divTableCell">Deadline </div>
-                        <div class="divTableCell">Authorized by </div>
-                        <div class="divTableCell">Status</div>
-                    </div>
-                    <div class="divTableRow">
-                        <div class="divTableCell">&nbsp; 81</div>
-                        <div class="divTableCell">&nbsp; 1984</div>
-                        <div class="divTableCell">&nbsp;
-                            George Orwell
-                        </div>
-                        <div class="divTableCell">&nbsp;
-                            2023-02-12 12:51:32
-                        </div>
-                        <div class="divTableCell">&nbsp;
-                            2023-03-12 12:51:32
-                        </div>
-                        <div class="divTableCell">&nbsp;
-                            J. Skarbalius
-                        </div>
-                        <div class="divTableCell">&nbsp;
-                            Pending
-                        </div>
-                    </div>
+                <div class="divTableBody" id="leases-rows">
                 </div>
             </div>
         </div>
     </div>
 
-
+<script src="leases.js"></script>
 </body>
 </html>

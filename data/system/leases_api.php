@@ -25,20 +25,22 @@
         
                 switch ($request) {
                     case 'get_all_leases':
-                        if($stmt = $db->con->prepare('SELECT * FROM library_leases'))
+                        if($stmt = $db->con->prepare('SELECT * FROM view_leases'))
                         {
                             $stmt->execute();
                                 $result = $stmt->get_result();
                                 while($row = $result->fetch_assoc())
                                 {
-                                    
                                     $returnable[] = $row;
                                 }
                         }
                         break;
-                    case 'get_lease_by_id':
+                    case 'get_lease_by_user':
+
+                        //validation
                         if(!isset($_REQUEST['id'])) break;
-                        if($stmt = $db->con->prepare('SELECT * FROM library_leases WHERE id=?'))
+                        
+                        if($stmt = $db->con->prepare('SELECT * FROM view_leases WHERE id=?'))
                         {
                             $stmt->bind_param('i', $_REQUEST['id']);
                             $stmt->execute();
@@ -49,21 +51,35 @@
                                 }
                         }
                         break;
+                    case 'get_current_leases':
+                        if($stmt = $db->con->prepare('SELECT * FROM view_leases WHERE email=?'))
+                        {
+                            $stmt->bind_param('s', $auth->email);
+                            $stmt->execute();
+                                $result = $stmt->get_result();
+                                while($row = $result->fetch_assoc())
+                                {
+                                    $returnable[] = $row;
+                                }
+                        }
+                        break;
                     case 'insert_lease':
+                        
                         if($stmt = $db->con->prepare("INSERT INTO library_leases (book_id, user_id, status, deadline, created_at, updated_at) VALUES (?,?,?,?,?,?)"))
                         {
-                            $current_timestamp = date("Y-m-d H:i:s", time());
                             
-                            $stmt->bind_param('ssssss', 
-                                $fields['book_id'],
-                                $fields['user_id'],
-                                $fields['status'],
-                                $fields['deadline'],
+                            $current_timestamp = date("Y-m-d H:i:s", time());
+                            $default_deadline =  date('Y-m-d H:i:s', strtotime($current_timestamp. ' + 30 days'));
+                            $status = "PENDING APPROVAL";
+
+                            $stmt->bind_param('iissss', 
+                                $fields['id'],
+                                $auth->user_id,
+                                $status,   //inserts are done
+                                $default_deadline,
                                 $current_timestamp,
                                 $current_timestamp
                             );
-
-                            echo "";
                             
                             if($stmt->execute()){
                                 $returnable["status"] =  "SUCCESS";
@@ -76,7 +92,9 @@
                         }
                         break;
                     case 'delete_lease':
+                        //validation
                         if(!isset($_REQUEST['id'])) break;
+
                         if($stmt = $db->con->prepare('DELETE FROM library_leases WHERE id=?'))
                         {
                             $stmt->bind_param('i', $_REQUEST['id']);
@@ -91,6 +109,7 @@
                         }
                         break;
                     case 'edit_lease':
+                        //validation
                         if(!isset($_REQUEST['id'])) break;
                         
                         if($stmt = $db->con->prepare("UPDATE library_books SET book_id=?, user_id=?, status=?, deadline=?, updated_at=? WHERE id=?"))
@@ -111,6 +130,26 @@
                             echo "FAILED";
                         }
                         break;
+                        case 'change_status':
+                            //validation
+                            if(!isset($_REQUEST['id'])) break;
+                            if(!isset($_REQUEST['status'])) break;
+
+                            if($stmt = $db->con->prepare("UPDATE library_books SET status=?, updated_at=? WHERE id=?"))
+                            {
+                                $stmt->bind_param('sss', 
+                                    $fields['status'],
+                                    $current_timestamp,
+                                    $_REQUEST["id"]
+                                );
+                                
+                                if($stmt->execute()) $returnable = "SUCCESS";
+                                else echo "FAILED";
+                            }
+                            else{
+                                echo "FAILED";
+                            }
+                            break;
                     default:
                         $returnable = $fields;
                         break;
