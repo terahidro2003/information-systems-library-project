@@ -83,3 +83,10 @@
    background-position: center;
    background-repeat: no-repeat;
 }
+
+.search-area input
+{
+   border-radius: 10px;
+   background-color: #f4f4f4;
+   border: none;
+}
