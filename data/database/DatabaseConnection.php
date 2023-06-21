@@ -4,7 +4,7 @@ class DatabaseConnection{
     private $db_host = '172.19.0.1';
     private $db_user = 'root';
     private $db_pwd = 'librarysystemroot123';
-    private $db_name = 'libraryDB';
+    private $db_name = 'libraryTest';
 
     private $type;
     public $con;
@@ -27,7 +27,19 @@ class DatabaseConnection{
 
     private function check_if_tables_exist()
     {
-        $tables = ["auth_users", "auth_codes", "auth_login_history", "library_books"];
+        //required tables list
+        $tables = [
+            "auth_users", 
+            "auth_login_history", 
+            "library_books", 
+            "library_leases", 
+            "files",
+            "view_leased_books",
+            "view_leases",
+            "view_books_with_covers",
+            "stats_leases_status",
+            "leases_stats"
+        ];
 
         //check if required tables exist
         foreach($tables as $table)

@@ -7,7 +7,7 @@ session_start();
 $DATABASE_HOST = '172.19.0.2';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = 'librarysystemroot123';
-$DATABASE_NAME = 'libraryDB';
+$DATABASE_NAME = 'libraryTest';
 
 // Try and connect using the info above.
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME, 3306);
@@ -17,7 +17,7 @@ if ( mysqli_connect_errno() ) {
 }
 
 //required tables list
-$tables = ["auth_users", "auth_codes", "auth_login_history", "library_books"];
+$tables = ["auth_users", "auth_codes", "auth_login_history", "library_books", "library_leases", "files"];
 
 //check if required tables exist
 foreach($tables as $table)
@@ -37,3 +37,4 @@ foreach($tables as $table)
 			$con->query(file_get_contents("../_config/tables/$table.sql"));
 		}
 }
+$con->query(file_get_contents("../_config/views.sql"));
