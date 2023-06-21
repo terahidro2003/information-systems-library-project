@@ -65,6 +65,7 @@
                         break;
                     case 'insert_lease':
                         
+                        
                         if($stmt = $db->con->prepare("INSERT INTO library_leases (book_id, user_id, status, deadline, created_at, updated_at) VALUES (?,?,?,?,?,?)"))
                         {
                             
@@ -81,6 +82,8 @@
                                 $current_timestamp
                             );
                             
+                            
+
                             if($stmt->execute()){
                                 $returnable["status"] =  "SUCCESS";
                                 $returnable["id"] = mysqli_stmt_insert_id($stmt);

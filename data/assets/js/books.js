@@ -1,3 +1,6 @@
+/*
+    Async type function for fetching API data
+*/
 async function fetchAsync (url, type, token) {
     let response = await fetch(url, {
         method: 'post',

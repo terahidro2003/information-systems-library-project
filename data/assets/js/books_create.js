@@ -1,3 +1,7 @@
+
+/*
+    Async type function for fetching API data
+*/
 async function fetchAsync (url, type, token) {
     let response = await fetch(url, {
         method: 'post',
@@ -21,7 +25,9 @@ async function fetchAsyncUpdate (url, type, token, b) {
     let data = await response.json();
     return data;
 }
-
+/*
+    Async type function for fetching Goodle Books API data
+*/
 async function fetchGoogleBooksAPI(keyword)
 {
     let response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${keyword}`, {
@@ -37,11 +43,13 @@ async function fetchGoogleBooksAPI(keyword)
 
 var feedback = fetchAsync("/system/library_api.php", "", token);
 
+//HTML elements mapping
 var book_title_header = document.getElementById('book-title');
 var book_fields_el = document.getElementById('book-fields');
 var field_inputs = "";
 var fields = [];
 
+//Get column names from API
 feedback.then(book => {
     book_title_header.innerHTML = `New book`;
     var i = 0;
@@ -63,6 +71,9 @@ feedback.then(book => {
     book_fields_el.innerHTML = field_inputs;
 });
 
+/*
+    Function that takes value in the title field as a hint to find and fill mathes from Google Books API
+*/
 function fill_google_books_api()
 {
     var feedback = fetchGoogleBooksAPI(document.getElementById("title").value);
@@ -79,6 +90,10 @@ function fill_google_books_api()
     });
 }
 
+
+/*
+    Function that sends create request to the API
+*/
 function create()
 {
     var valid = true;

@@ -1,3 +1,6 @@
+/*
+    Async type function for fetching API data
+*/
 async function fetchAsync (url, type, token, id) {
     let response = await fetch(url, {
         method: 'post',
@@ -24,11 +27,15 @@ async function fetchAsyncUpdate (url, type, token, b) {
 
 var feedback = fetchAsync("/system/library_api.php", "get_book_by_id", token, book_id);
 
+//HTML elements mapping
 var book_title_header = document.getElementById('book-title');
 var book_fields_el = document.getElementById('book-fields');
+
+//Variables
 var field_inputs = "";
 var fields = [];
 
+//Fields gathering from API
 feedback.then(book => {
     book_title_header.innerHTML = `Book: ${book[0].title}`;
     document.title = `${book[0].title} | LIMS | v0.0.1`;
@@ -56,6 +63,10 @@ feedback.then(book => {
     book_fields_el.innerHTML = field_inputs;
 });
 
+
+/*
+Function that sends book update request to the API
+*/
 function update()
 {
     var body = ``;
@@ -76,6 +87,9 @@ function update()
     });
 }
 
+/*
+Function that sends remove request to the API
+*/
 function remove()
 {
     var response = fetchAsync("/system/library_api.php", "delete_books", token, book_id);

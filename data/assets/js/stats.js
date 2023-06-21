@@ -1,3 +1,6 @@
+/*
+    Async type function for fetching API data
+*/
 async function fetchAsync (url, type, token) {
     let response = await fetch(url, {
         method: 'post',
@@ -18,7 +21,7 @@ var feedback2 = fetchAsync("/system/statistics_api.php", "leases", token);
 var response1 = [];
 var response2 = [];
 
-//saving
+//savings
 feedback1.then(data =>{
     response1 = data;
 });
@@ -28,9 +31,11 @@ feedback2.then(data =>{
     response2 = data;
 });
 
+//Google charts API configuration
 google.charts.load("current", {packages:["corechart"]});
 google.charts.setOnLoadCallback(drawChart1);
 google.charts.setOnLoadCallback(drawChart2);
+
 function drawChart1() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Status');
@@ -53,14 +58,6 @@ function drawChart1() {
 }
 
 function drawChart2() {
-    // var data = google.visualization.arrayToDataTable([
-    //   ['Year', 'Sales', 'Expenses'],
-    //   ['2004',  1000,      400],
-    //   ['2005',  1170,      460],
-    //   ['2006',  660,       1120],
-    //   ['2007',  1030,      540]
-    // ]);
-
 
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'Issued Books');

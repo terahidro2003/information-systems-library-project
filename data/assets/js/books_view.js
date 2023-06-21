@@ -1,4 +1,7 @@
-async function fetchAsync (url, type, token, id) {
+/*
+    Async type function for fetching API data
+*/
+async function fetchAsyncBorrow (url, type, token, id) {
     let response = await fetch(url, {
         method: 'post',
         headers:new Headers({
@@ -6,6 +9,7 @@ async function fetchAsync (url, type, token, id) {
         }),
         body: `token=${token}&data=${type}&id=${id}`
     });
+    console.error(`token=${token}&data=${type}&id=${id}`);
     let data = await response.json();
     return data;
 }
@@ -22,12 +26,16 @@ async function fetchAsyncUpdate (url, type, token, b) {
     return data;
 }
 
-var feedback = fetchAsync("/system/library_api.php", "get_book_by_id", token, book_id);
+//HTML field mappings
+var feedback = fetchAsyncBorrow("/system/library_api.php", "get_book_by_id", token, book_id);
 var book_title_header = document.getElementById('book-title');
 var book_fields_el = document.getElementById('book-fields');
+
+//Variables
 var field_inputs = "";
 var fields = [];
 
+//Gather column names & display data from API
 feedback.then(book => {
     book_title_header.innerHTML = `Book: ${book[0].title}`;
     document.title = `${book[0].title} | LIMS | v0.0.1`;
@@ -52,10 +60,12 @@ feedback.then(book => {
     book_fields_el.innerHTML = field_inputs;
 });
 
+/*
+Send borrow insert with status PENDING APPROVAL to the leases API
+*/
 function borrow()
 {
-    console.log("clicked");
-    var borrow_req = fetchAsync("/system/leases_api.php", "insert_lease", token, book_id);
+    var borrow_req = fetchAsyncBorrow("/system/leases_api.php", "insert_lease", token, book_id);
 
     borrow_req.then(res => {
         if(res.status == "SUCCESS")
