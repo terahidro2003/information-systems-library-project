@@ -1,3 +1,5 @@
+-- Table for storing session tokens and device info
+-- Authentication table
 CREATE TABLE auth_login_history(
     id int(11) NOT NULL AUTO_INCREMENT,
     user_id int,

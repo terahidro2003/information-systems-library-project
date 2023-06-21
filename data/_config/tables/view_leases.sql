@@ -1,0 +1,1 @@
+create view view_leases as (select title, author, library_leases.id, status, deadline, auth_users.email from library_books inner join library_leases on library_leases.book_id = library_books.id inner join auth_users on auth_users.id = library_leases.user_id);

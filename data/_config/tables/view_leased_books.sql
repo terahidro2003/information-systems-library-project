@@ -1,0 +1,2 @@
+-- combines books with leases
+create view view_leased_books as (select title, description, deadline, status, year_published from library_books inner join library_leases on library_books.id = library_leases.book_id);

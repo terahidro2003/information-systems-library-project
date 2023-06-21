@@ -1,3 +1,4 @@
+-- Table for storing file information
 CREATE TABLE files(
     id int primary key AUTO_INCREMENT,
     type varchar(255),
