@@ -41,7 +41,7 @@ if(isset($_POST['email'], $_POST['password']))
     <div class="auth-wrapper">
     <div class="auth-form d-flex d-flex-columns">
         <?php
-            if(isset($login) && $login->err == false) 
+            if(isset($login, $_POST['email']) && $login->err == false) 
             {
                 echo "<div class='alert alert-danger'>";
                 echo "  Incorrect login credentials";

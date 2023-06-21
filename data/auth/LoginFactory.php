@@ -17,6 +17,7 @@ class LoginFactory extends Authentication
     public $emailErr;
     public $passwordErr;
     private $auth;
+    public $session;
 
     // public function __construct($e, $p)
     // {

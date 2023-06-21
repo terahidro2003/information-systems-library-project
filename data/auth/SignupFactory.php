@@ -49,16 +49,31 @@ class SignupFactory extends Authentication{
         if($this->emailErr || $this->passwordErr || $this->authCodeErr || $this->nameErr) {
             $this->valid = false;
         }
+
+        //check if user with the same email address exists in DB
+        if($stmt = $this->databaseConnection->con->prepare('SELECT * FROM auth_users WHERE email=?'))
+        {
+            $stmt->bind_param('s', $this->email);
+            if($stmt->execute())
+            {
+                $stmt->execute();
+                // Store the result so we can check if the account exists in the database.
+                $stmt->store_result();
+                if ($stmt->num_rows > 0) {
+                    $this->valid = false;
+                }
+            }
+        }
+
+
         if($this->valid)
         {
             $this->status = "VALID";
             $signup_message =  "<div class='alert alert-success'>Validation passed</div>";
             return;
         }
-        // else if($this->emailErr) {$signup_message =  "<div class='alert alert-warning'>Invalid email</div>";}
-        // else if($this->passwordErr) {$signup_message =  "<div class='alert alert-warning'>Invalid password</div>";}
-        // else if($this->authCodeErr) {$signup_message =  "<div class='alert alert-warning'>Invalid authentication code</div>\n";}
-        // else if($this->nameErr) {$signup_message =  "<div class='alert alert-warning'>Invalid name or lastname</div>";}
+
+        
         $this->status = "NON-VALID";
     }
 
@@ -73,14 +88,14 @@ class SignupFactory extends Authentication{
                 if($stmt->execute())
                 {
                     $this->status = "SUCCESS";
-                    echo "Signup successfull\n";
+                    // echo "Signup successfull\n";
                 }
                 else{
                     $this->status = "FAILED";
-                    echo "FAILED\n";
+                    // echo "FAILED\n";
                 }
             }else{
-                echo "ERROR\n";
+                // echo "ERROR\n";
             }
         }
     }

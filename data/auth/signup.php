@@ -1,19 +1,18 @@
 <?php
 include "SignupFactory.php";
 ob_start();
+error_reporting(0);
 $signup = new SignupFactory();
 if($signup->auth(false, null))
 {
    exit(header('Location: /system/index.php'));
 }
 
-if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_name"], $_POST["l_name"]))
+if(isset($_POST["email"], $_POST["password"], $_POST["f_name"], $_POST["l_name"]))
 {
-    $signup->signup($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_name"], $_POST["l_name"]);
+    $signup->signup($_POST["email"], $_POST["password"], "123123", $_POST["f_name"], $_POST["l_name"]);
     $signup->validate();
     if($signup->valid) $signup->save();
-}else{
-    // echo "provide all details required \n";
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +23,7 @@ if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_nam
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/auth.css">
     <link rel="stylesheet" href="/assets/css/ui/main.css">
-    <title>Signup | Library Managament System</title>
+    <title>Signup | LIMS</title>
 </head>
 <body>
     <div class="auth-wrapper">
@@ -39,7 +38,10 @@ if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_nam
                 if($signup->authCodeErr) echo '<li>Make sure you typed signup authentication code correctly. This code can be received from your librarian</li>';
                 if($signup->nameErr) echo '<li>Make sure you typed your full name correctly</li>';
                 echo '</ul></div>';
-            } 
+            }else if($signup->status == "SUCCESS")
+            {
+                echo '<div class="alert alert-success"><span class="alert-header">Signup was successfull</span></div>';
+            }
         ?>
     <form action="signup.php" method="POST">
         <div>
@@ -53,19 +55,15 @@ if(isset($_POST["email"], $_POST["password"], $_POST["auth_code"], $_POST["f_nam
             </div>
             <div style="padding-left: 1em;">
                 <label class="d-block" for="">Last Name:</label>
-                <input class="d-block form-control" type="text" name="l_name" placeholder="Stovold">
+                <input class="d-block form-control" type="text" name="l_name" placeholder="Nobel">
             </div>
-        </div>
-        <div class="mt-8">
-            <label class="d-block" for="">Authentication Code:</label>
-            <input class="d-block form-control" type="text" name="auth_code" placeholder="Auth code">
         </div>
        <div class="mt-8">
             <label class="d-block" for="">Password:</label>
             <input class="d-block form-control" type="password" name="password" placeholder="Password">
        </div>
        <button type="submit" class="btn btn-primary mt-8 d-block">Login</button>
-       <a class="link mt-6 d-block" href="#forgot-password">Already have an account? Log in here.</a>
+       <a class="link mt-6 d-block" href="/">Already have an account? Log in here.</a>
     </div>
     <div class="auth-background"></div>
     </div>

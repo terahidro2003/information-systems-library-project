@@ -13,7 +13,6 @@ class Authentication
 
 	public function __construct()
 	{
-		error_reporting(0);
 		$this->databaseConnection = new DatabaseConnection("auth");
 		$this->session = new SessionManager();
 	}
@@ -46,7 +45,8 @@ class Authentication
 			{
 				if(!$api)
 				{
-					$stmt->bind_param('s', $this->session->get('LIMS.auth'));
+					$workaround = $this->session->get('LIMS.auth'); //bind_param cannot take value from reference, so seperate var. had to be created
+					$stmt->bind_param('s', $workaround);
 				}else{
 					$stmt->bind_param('s', $token);
 				}
