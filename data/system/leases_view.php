@@ -23,13 +23,20 @@
     if($auth->role == 1)
     {
         echo '<body class="admin-panel">';
-        echo '<script async> var is_admin = true; </script>';
+        echo '<script async>var is_admin = true;</script>';
     }else{
         echo '<body>';
-        echo '<script async> var is_admin = false; </script>';
+        echo '<script async>var is_admin = false;</script>';
     }
     
 ?>
+    <dialog class="search-dialog" id="search-dialog" closed>
+        <p>Search results:</p>
+        <div id="search-results-panel">
+
+        </div>
+    </dialog>
+
     <div class="sidenav">
         <div class="logo" style="color: #fff;">
             <div style="text-align: center;">
@@ -57,35 +64,40 @@
                 <?php
                     if($auth->role == 1)
                     {
-                        echo 'All leases';
+                        echo 'All issued books';
                     }else{
-                        echo 'My Leases';
-                    }
-                ?>
-                </a>
-                <a href="#somewhere" class="">
-                <?php
-                    if($auth->role == 1)
-                    {
-                        echo 'All Ebooks';
-                    }else{
-                        echo 'My Ebooks';
+                        echo 'My issued books';
                     }
                 ?>
                 </a>
             </div>
             <div class="section">
                 <span class="section-name">Settings</span>
-                <a href="#somewhere" class="">Security</a>
                 <?php
                     if($auth->role == 1)
                     {
-                        echo '<a href="" class="">All users</a>';
-                        echo '<a href="" class="">Login Histories</a>';
+                        echo '<a href="/system/users.php" class="">All users</a>';
                     }
                 ?>
-                <a href="#somewhere" class="">Statistics</a>
+                <a href="/system/statistics.php" class="">Statistics</a>
             </div>
+        </div>
+    </div>
+
+    <div class="topnav">
+        <div class="search-area">
+            <input type="text" class="form-control" id="search-input" onfocus="opensearchdialog();" placeholder="Search here...">
+        </div>
+        <div class="d-flex d-flex-inline d-flex-align-center">
+            <?php
+              if(isset($auth->email))
+              {
+                  echo $auth->email;
+              }   
+            ?>
+            <form action="/auth/logout.php" method="post">
+                <button type="submit" class="ml-9 btn" style="border: 1px dashed #ddd;">Logout</button>
+            </form>
         </div>
     </div>
 
@@ -93,13 +105,16 @@
         <div class="search-area">
             <input type="text" class="form-control" placeholder="Search here...">
         </div>
-        <div>
+        <div class="d-flex d-flex-inline d-flex-align-center">
             <?php
               if(isset($auth->email))
               {
                   echo $auth->email;
               }   
             ?>
+            <form action="/auth/logout.php" method="post">
+                <button type="submit" class="ml-9 btn" style="border: 1px dashed #ddd;">Logout</button>
+            </form>
         </div>
     </div>
 
@@ -110,9 +125,9 @@
                 <?php
             if($auth->role == 1)
                     {
-                        echo 'All leases';
+                        echo 'All issued books';
                     }else{
-                        echo 'My leases';
+                        echo 'My issued books';
                     }
                     ?>
             </h1>
@@ -125,6 +140,7 @@
         </div>
     </div>
 
-<script src="leases.js"></script>
+<script src="/assets/js/leases.js"></script>
+<script src="/assets/js/search.js"></script>
 </body>
 </html>

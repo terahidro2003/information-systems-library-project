@@ -4,6 +4,16 @@
     
     Authentication::check_authentication($auth);
 
+
+    /*
+     If user is not an admin user, redirect back
+    */
+    if($auth->role != 1)
+    {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -21,26 +31,27 @@
         }
     ?>
 </head>
-<body>
-<div class="topnav">
-        <div class="search-area">
-            <input type="text" class="form-control" placeholder="Search here...">
+
+<?php
+
+    if($auth->role == 1)
+    {
+        echo '<body class="admin-panel">';
+        echo '<script async>var is_admin = true;</script>';
+    }else{
+        echo '<body>';
+        echo '<script async>var is_admin = false;</script>';
+    }
+    
+?>
+    <dialog class="search-dialog" id="search-dialog" closed>
+        <p>Search results:</p>
+        <div id="search-results-panel">
+
         </div>
-        <div>
-            <?php
-              if(isset($auth->email))
-              {
-                  echo $auth->email;
-        
-              }   
-              if(isset($role))
-              {
-                echo $role;
-              }
-            ?>
-        </div>
-    </div>
-<div class="sidenav">
+    </dialog>
+
+    <div class="sidenav">
         <div class="logo" style="color: #fff;">
             <div style="text-align: center;">
                 LIMS
@@ -56,31 +67,64 @@
                 </span>
             </div>
         </div>
-       
         <div class="sidenav-content">
+            
             <div class="section">
                 <span class="section-name">Library</span>
-                <a href="#somewhere" class="active" id="nav-books-link">
+                <a href="/system/index.php" id="nav-books-link" class="active">
                     <span>Books</span>
                 </a>
-                <a href="#somewhere" class="">
-                    <span>My Leases</span>
-                </a>
-                <a href="#somewhere" class="">
-                    <span>My Ebooks</span>
+                <a href="/system/leases_view.php">
+                <?php
+                    if($auth->role == 1)
+                    {
+                        echo 'All issued books';
+                    }else{
+                        echo 'My issued books';
+                    }
+                ?>
                 </a>
             </div>
             <div class="section">
                 <span class="section-name">Settings</span>
-                <a href="#somewhere" class="">Security</a>
-                <a href="#somewhere" class="">Statistics</a>
+                <?php
+                    if($auth->role == 1)
+                    {
+                        echo '<a href="" class="">All users</a>';
+                    }
+                ?>
+                <a href="/system/statistics.php" class="">Statistics</a>
             </div>
+        </div>
+    </div>
+
+    <div class="topnav">
+        <div class="search-area">
+            <input type="text" class="form-control" id="search-input" onfocus="opensearchdialog();" placeholder="Search here...">
+        </div>
+        <div class="d-flex d-flex-inline d-flex-align-center">
+            <?php
+              if(isset($auth->email))
+              {
+                  echo $auth->email;
+              }   
+            ?>
+            <form action="/auth/logout.php" method="post">
+                <button type="submit" class="ml-9 btn" style="border: 1px dashed #ddd;">Logout</button>
+            </form>
         </div>
     </div>
     <div id="system-body">
         <div class="header d-flex">
             <h1 id="book-title">{undefined book}</h1>
-            <h4>Phase 1: General Book Information</h4>
+            <div>
+                <h4>Phase 1: General Book Information</h4>
+                <a onclick="fill_google_books_api()" class="btn btn-primary">Try Fetch Google Books API</a>
+            </div>
+            
+        </div>
+        <div class="alert alert-warning">
+            Please note that once a book can be created as either physical or either electronical. The book type can be changed after creation, however it would be impossible to retrieve PDF file or add PDF file.
         </div>
         <div id="alert-success" style="display: none;" class="mt-8 mb-8 alert alert-success">
             Book information saved successfully
@@ -110,6 +154,7 @@
             
         </div>
     </div>
-    <script src="books_create.js"></script>
+    <script src="/assets/js/books_create.js"></script>
+    <script src="/assets/js/search.js"></script>
 </body>
 </html>

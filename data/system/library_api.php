@@ -7,18 +7,15 @@
             'description' => isset($_REQUEST['description']) ? $_REQUEST['description'] : "null",
             'quantity' => isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : null,
             'year_published' => isset($_REQUEST['year_published']) ? $_REQUEST['year_published'] : null,
-            'author_group_id' => isset($_REQUEST['author_group_id']) ? $_REQUEST['author_group_id'] : null,
-            'publisher_id' => isset($_REQUEST['publisher_id']) ? $_REQUEST['publisher_id'] : null,
+            'author' => isset($_REQUEST['author']) ? $_REQUEST['author'] : null,
             'added_by_user' => isset($_REQUEST['added_by_user']) ? $_REQUEST['added_by_user'] : null,
-            'ISBN_type' => isset($_REQUEST['ISBN_type']) ? $_REQUEST['ISBN_type'] : "null",
             'ISBN_identifier' => isset($_REQUEST['ISBN_identifier']) ? $_REQUEST['ISBN_identifier'] : "null",
             'page_count' => isset($_REQUEST['page_count']) ? $_REQUEST['page_count'] : null,
             'cover_image_id' => isset($_REQUEST['cover_image_id']) ? $_REQUEST['cover_image_id'] : null,
             'language' => isset($_REQUEST['language']) ? $_REQUEST['language'] : "null",
             'type' => isset($_REQUEST['type']) ? $_REQUEST['type'] : "null",
             'created_at' => date("Y-m-d H:i:s", time()),
-            'updated_at' => date("Y-m-d H:i:s", time()),
-            'deleted_at' => date("Y-m-d H:i:s", time())
+            'updated_at' => date("Y-m-d H:i:s", time())
         );
         
          //authentication
@@ -60,24 +57,23 @@
                         }
                         break;
                     case 'insert_books':
-                        if($stmt = $db->con->prepare("INSERT INTO library_books (title, description, quantity, year_published, author_group_id, publisher_id, added_by_user, ISBN_type, ISBN_identifier, page_count, language, type, created_at, updated_at, deleted_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"))
+                        if($auth->role != 1) break; //regular user is not authorized to change status
+                        if($stmt = $db->con->prepare("INSERT INTO library_books (title, description, quantity, year_published, author, added_by_user, ISBN_identifier, page_count, language, type, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"))
                         {
                             $current_timestamp = date("Y-m-d H:i:s", time());
+                            $user_id = $auth->user_id;
                             
-                            $stmt->bind_param('sssssssssssssss', 
+                            $stmt->bind_param('ssssssssssss', 
                                 $fields['title'],
                                 $fields['description'],
                                 $fields['quantity'],
                                 $fields['year_published'],
-                                $fields['author_group_id'],
-                                $fields['publisher_id'],
-                                $fields['added_by_user'],
-                                $fields["ISBN_type"],
+                                $fields['author'],
+                                $user_id,
                                 $fields["ISBN_identifier"],
                                 $fields["page_count"],
                                 $fields["language"],
                                 $fields["type"],
-                                $current_timestamp,
                                 $current_timestamp,
                                 $current_timestamp
                             );
@@ -95,6 +91,7 @@
                         }
                         break;
                     case 'delete_books':
+                        if($auth->role != 1) break; //regular user is not authorized to change status
                         if(!isset($_REQUEST['id'])) break;
                         if($stmt = $db->con->prepare('DELETE FROM library_books WHERE id=?'))
                         {
@@ -110,27 +107,24 @@
                         }
                         break;
                     case 'edit_books':
+                        if($auth->role != 1) break; //regular user is not authorized to change status
                         if(!isset($_REQUEST['id'])) break;
-                        
-                        if($stmt = $db->con->prepare("UPDATE library_books SET title=?, description=?, quantity=?, year_published=?, author_group_id=?, publisher_id=?, added_by_user=?, ISBN_type=?, ISBN_identifier=?, page_count=?, cover_image_id=?, language=?, type=?, created_at=?, updated_at=?, deleted_at=? WHERE id=?"))
+                        echo "S";
+                        if($stmt = $db->con->prepare("UPDATE library_books SET title=?, description=?, quantity=?, year_published=?, author=?, added_by_user=?, ISBN_identifier=?, page_count=?, language=?, type=?, updated_at=? WHERE id=?"))
                         {
-                            $stmt->bind_param('sssssssssssssssss', 
+                            
+                            $stmt->bind_param('ssssssssssss', 
                                 $fields['title'],
                                 $fields['description'],
                                 $fields['quantity'],
                                 $fields['year_published'],
-                                $fields['author_group_id'],
-                                $fields['publisher_id'],
+                                $fields['author'],
                                 $fields['added_by_user'],
-                                $fields["ISBN_type"],
                                 $fields["ISBN_identifier"],
                                 $fields["page_count"],
-                                $fields["cover_image_id"],
                                 $fields["language"],
                                 $fields["type"],
-                                $fields["created_at"],
                                 $fields["updated_at"],
-                                $fields["deleted_at"],
                                 $_REQUEST["id"]
                             );
                             

@@ -39,7 +39,7 @@
 
                         //validation
                         if(!isset($_REQUEST['id'])) break;
-                        
+
                         if($stmt = $db->con->prepare('SELECT * FROM view_leases WHERE id=?'))
                         {
                             $stmt->bind_param('i', $_REQUEST['id']);
@@ -94,6 +94,7 @@
                     case 'delete_lease':
                         //validation
                         if(!isset($_REQUEST['id'])) break;
+                        if($auth->role != 1) break; //regular user is not authorized to change status
 
                         if($stmt = $db->con->prepare('DELETE FROM library_leases WHERE id=?'))
                         {
@@ -111,6 +112,7 @@
                     case 'edit_lease':
                         //validation
                         if(!isset($_REQUEST['id'])) break;
+                        if($auth->role != 1) break; //regular user is not authorized to change status
                         
                         if($stmt = $db->con->prepare("UPDATE library_books SET book_id=?, user_id=?, status=?, deadline=?, updated_at=? WHERE id=?"))
                         {
@@ -132,19 +134,21 @@
                         break;
                         case 'change_status':
                             //validation
+                            
                             if(!isset($_REQUEST['id'])) break;
                             if(!isset($_REQUEST['status'])) break;
-
-                            if($stmt = $db->con->prepare("UPDATE library_books SET status=?, updated_at=? WHERE id=?"))
+                            
+                            if($stmt = $db->con->prepare("UPDATE library_leases SET status=?, updated_at=? WHERE id=?"))
                             {
-                                $stmt->bind_param('sss', 
+                                $current_timestamp = date("Y-m-d H:i:s", time());
+                                $stmt->bind_param('ssi', 
                                     $fields['status'],
                                     $current_timestamp,
                                     $_REQUEST["id"]
                                 );
                                 
-                                if($stmt->execute()) $returnable = "SUCCESS";
-                                else echo "FAILED";
+                                if($stmt->execute()) $returnable["status"] = "SUCCESS";
+                                else $returnable["status"] = "FAILED";
                             }
                             else{
                                 echo "FAILED";

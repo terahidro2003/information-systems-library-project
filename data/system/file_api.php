@@ -7,8 +7,6 @@ require '../auth/authenticate.php';
         $auth = new Authentication();
         Authentication::check_authentication($auth);
 
-        echo "Authentication check complete";
-
         if(isset($_FILES["file"]["name"]))
         {
             $current_timestamp = date('Y-m-d H:i:s',time());
@@ -18,11 +16,6 @@ require '../auth/authenticate.php';
             $fileName = basename($_FILES["file"]["name"]);
             $targetPath = $rootDir . $fileName;
             $fileType = pathinfo($targetPath,PATHINFO_EXTENSION);
-
-            echo $rootdir . "\n";
-            echo $fileName . "\n";
-            echo $targetPath . "\n";
-            echo $fileType . "\n";
 
             //Check if file type is allowed
             $allowedTypes = array('jpg','png','jpeg','gif','pdf');
@@ -46,7 +39,8 @@ require '../auth/authenticate.php';
                                         if($stmt->execute())
                                         {
                                             $STATUS_FLAG = 'SUCCESS';
-                                            echo $STATUS_FLAG;
+                                            header("Location: /");
+                                            die();
                                         }
                                     }
                                 }
