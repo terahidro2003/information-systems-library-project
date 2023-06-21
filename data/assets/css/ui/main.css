@@ -29,6 +29,24 @@
     color: blue;
  }
 
+ dialog{
+   z-index: 9999999999;
+   position: absolute;
+ }
+
+ .search-dialog
+ {
+   position: absolute;
+   border: 1px solid #ddd;
+   width: 60vw;
+   /* height: 65vh; */
+   top: calc(35vh / 2 - 2em);
+   left: calc(60vh / 2 + 4.5em);
+   padding: 1em;
+   border-radius: 8px;
+   background: #f4f4f4;
+ }
+
  #system-body
  {
     width: calc(100% - 14.5rem);
